@@ -1,5 +1,5 @@
 # 画像ファイル
-*.jpg
+lenna.jpg
 *.png
 
 # Byte-compiled / optimized / DLL files
