@@ -23,6 +23,10 @@ SLIC(Simple Linear Iterative Clustering) 再現実装
 - OpenCVを用いた実装     [slic_cv.py](slic_cv.py)<br>
 [Qiita：OpenCVのスーパーピクセル](https://qiita.com/sitar-harmonics/items/ba02cd14d6f362439e96)を参考に実装
 
+## 結果
+
+<img src="./assets/result.jpg" height="300px" alt="SLIC結果"></img>
+
 ## 仮想環境
 ``` bash
 conda env create --file env.yml
