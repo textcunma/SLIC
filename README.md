@@ -1,7 +1,7 @@
 # SLIC
 SLIC(Simple Linear Iterative Clustering) 再現実装
 
-スーパーピクセルを生成するSLIC([原著論文](https://core.ac.uk/download/pdf/147983593.pdf))の実装です。
+スーパーピクセルを生成するSLIC([原著論文](https://core.ac.uk/download/pdf/147983593.pdf))(2012年)の実装です。
 
 <img src="./assets/desc.jpg" height="300px" alt="SLIC結果"></img>
 
@@ -15,6 +15,13 @@ SLIC(Simple Linear Iterative Clustering) 再現実装
 3. 最大イテレーション数もしくはマンハッタン距離で計算した重心移動量が閾値以下になるまで以下の処理を続ける
 4. 画像全体ではなく、局所的な範囲で重心とピクセルの距離に基づくk-meansを適用。ただし、距離計算は色と位置、スーパーピクセルの大きさを考慮する。
 5. クラスタに含まれる全てのピクセルの色と位置の平均値から新たな重心を計算し、重心を移動
+
+## 実装
+- 再現実装     [slic.py](slic.py)<br>
+主にPythonとNumpyを用いて実装
+
+- OpenCVを用いた実装     [slic_cv.py](slic_cv.py)<br>
+[Qiita：OpenCVのスーパーピクセル](https://qiita.com/sitar-harmonics/items/ba02cd14d6f362439e96)を参考に実装
 
 ## 仮想環境
 ``` bash
