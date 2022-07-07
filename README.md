@@ -1,7 +1,7 @@
 # SLIC
 SLIC(Simple Linear Iterative Clustering) 再現実装
 
-スーパーピクセルを生成するSLIC([原著論文](https://core.ac.uk/download/pdf/147983593.pdf))(2012年)の実装です。
+スーパーピクセルを生成するSLIC([元論文](https://core.ac.uk/download/pdf/147983593.pdf))(2012年)の実装です。
 
 <img src="./assets/desc.jpg" height="300px" alt="SLIC結果"></img>
 
