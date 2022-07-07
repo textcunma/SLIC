@@ -67,8 +67,8 @@ class SLIC:
     def __call__(self):
         """
         メイン実行
-        :return cluster_center (type:numpy.ndarray) 各クラスタ重心のlabxy情報
-        :return pixels_label (type:numpy.ndarray) 各画素の属しているクラスタの情報
+        :return cluster_center (type:numpy.ndarray, int32) 各クラスタ重心のlabxy情報
+        :return pixels_label (type:numpy.ndarray, Object) 各画素の属しているクラスタの情報
         """
         # 最大イテレーション数まで繰り返し実行
         for i in tqdm.tqdm(range(self.max_itr)):
@@ -83,7 +83,7 @@ class SLIC:
     def createPixelInfo(self, img):
         """
         [l,a,b]から[l,a,b,x,y]の形式に変更
-        :param img (type:numpy.ndarray) Lab画像
+        :param img (type:numpy.ndarray, uint8) Lab画像
         :return [l,a,b,x,y]形式にしたピクセル情報 shape=(H,W,5)
         """
         # ※画素の位置は[y][x]の順に指定する必要があることに注意

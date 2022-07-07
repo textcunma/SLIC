@@ -26,7 +26,7 @@ def loadImg(mode, img_url, img_path):
 def displayImg(img):
     """
     画像を表示
-    :param img (type:numpy.ndarray) 画像情報
+    :param img (type:numpy.ndarray, uint8) 画像情報
     """
     cv2.imshow("display image", img)
     cv2.waitKey(0)
@@ -36,8 +36,8 @@ def displayImg(img):
 def displayCenter(centerlist, img):
     """
     クラスタの重心座標を描画
-    :param centerlist (type:list) 複数の中心座標を記録したリスト
-    :param img (type:numpy.ndarray) 画像情報
+    :param centerlist (type:numpy.ndarra, int32) 複数の中心座標を記録したリスト
+    :param img (type:numpy.ndarray, uint8) 画像情報
     """
     for i in range(len(centerlist)):
         x, y = centerlist[i][-2:]
@@ -53,16 +53,16 @@ def displayCenter(centerlist, img):
     displayImg(img)
 
 
-def displayCluster(centerlist, label, img):
+def displayCluster(center, label, img):
     """
     各クラスタに含まれる画素をクラスタの重心の色に変更
-    :param centerlist (type:list) 各クラスタ重心座標を記録したリスト
-    :param label (type:list) 画素がどのクラスタに属しているかを記録したリスト
-    :param img (type:numpy.ndarray) 画像情報
+    :param center (type:numpy.ndarray, int32) shape=(k,C) 各クラスタ重心座標を記録した配列
+    :param label (type:numpy.ndarray, Object) 画素がどのクラスタに属しているかを記録した配列
+    :param img (type:numpy.ndarray, uint8) shape=(H,W,C) 画像情報
     """
-    for i in range(len(centerlist)):
+    for i in range(len(center)):
         # i番目のクラスタのlab値を取得
-        l, a, b = centerlist[i][:3]
+        l, a, b = center[i][:3]
 
         # i番目のクラスタに含まれる点のxy座標 [0]: y座標, [1]:x座標
         idxs = np.where(label == i)
@@ -72,20 +72,20 @@ def displayCluster(centerlist, label, img):
 
         # 各座標の値をクラスタ重心のlab値に変更
         img[tuple((idxs).T)] = [l, a, b]
-
+    
     # Lab->BGRは、BGR->Labの逆変換で可能。省略のため、今回はOpenCVにより実行
     img = cv2.cvtColor(img, cv2.COLOR_Lab2BGR)
     displayImg(img)
 
 
-def displayClusterColor(centerlist, label, img):
+def displayClusterColor(center, label, img):
     """
     各クラスタに含まれる画素をクラスタの重心の色に変更
-    :param centerlist (type:list) 各クラスタ重心座標を記録したリスト
-    :param label (type:list) 画素がどのクラスタに属しているかを記録したリスト
-    :param img (type:numpy.ndarray) 画像情報
+    :param center (type:numpy.ndarray, int32) shape=(k,C) 各クラスタ重心座標を記録した配列
+    :param label (type:numpy.ndarray, Object) 画素がどのクラスタに属しているかを記録した配列
+    :param img (type:numpy.ndarray, uint8) shape=(H,W,C) 画像情報
     """
-    for i in range(len(centerlist)):
+    for i in range(len(center)):
         # i番目のクラスタに含まれる点のxy座標 [0]: y座標, [1]:x座標
         idxs = np.where(label == i)
 
@@ -95,8 +95,8 @@ def displayClusterColor(centerlist, label, img):
         # 各座標の値をクラスタ重心のlab値に変更
         img[tuple((idxs).T)] = list(np.random.choice(range(256), size=3))
 
-    for i in range(len(centerlist)):
-        x, y = centerlist[i][-2:]
+    for i in range(len(center)):
+        x, y = center[i][-2:]
         cv2.circle(img, (x, y), 5, (0, 0, 255), thickness=-1)
     displayImg(img)
 
@@ -104,8 +104,8 @@ def displayClusterColor(centerlist, label, img):
 def displayClusterContour(label, img):
     """
     各クラスタの輪郭を描画
-    :param label (type:list) 画素がどのクラスタに属しているかを記録したリスト
-    :param img (type:numpy.ndarray) 画像情報
+    :param label (type:numpy.ndarray, Object) 画素がどのクラスタに属しているかを記録した配列
+    :param img (type:numpy.ndarray, uint8) shape=(H,W,C) 画像情報
     """
     h, w = img.shape[:2]
     for y in range(h - 1):
@@ -194,7 +194,6 @@ def xyz2labPixels(xyz):
     a = round(a)
     b = round(b)
     return [l, a, b]
-
 
 def bgr2labPixels(b,g,r):
     """
