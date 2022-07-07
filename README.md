@@ -25,7 +25,7 @@ SLIC(Simple Linear Iterative Clustering) 再現実装
 
 ## 結果
 
-<img src="./assets/result.jpg" height="300px" alt="SLIC結果"></img>
+<img src="./assets/result.jpg" height="250px" alt="SLIC結果"></img>
 
 ## 仮想環境
 ``` bash
@@ -34,6 +34,9 @@ conda env create --file env.yml
 - Python: 3.8.13
 - Numpy: 1.23.0
 - OpenCV: 4.5.5
+
+## 改善
+- RGBからLabに変換する際に並列処理からnp.vectorizeに変更。約1.15倍高速になる
 
 ## 参考サイト
 【RGB表色系からLab表色系に変換】

@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 import urllib.request
-import multiprocessing as mp
 
 
 def loadImg(mode, img_url, img_path):
@@ -197,14 +196,15 @@ def xyz2labPixels(xyz):
     return [l, a, b]
 
 
-def bgr2labPixels(bgr):
+def bgr2labPixels(b,g,r):
     """
     ピクセルのBGR値をLab値に変換
     :param bgr (type:numpy.ndarray) shape=(C,) BGRピクセル値
     :return lab (list) length:3 Labピクセル値
     """
+
     # BGRからRGBに変換
-    rgb = bgr[::-1]  # 順番を反転(B->G->R => R->G->B)
+    rgb = [r, g, b]  # 順番を反転(B->G->R => R->G->B)
 
     # 非線形RGBから線形RGBに変換
     rgb = srgb2rgbPixels(rgb)
@@ -214,8 +214,8 @@ def bgr2labPixels(bgr):
 
     # XYZ表色系からLab表色系に変換
     lab = xyz2labPixels(xyz)
-
-    return lab
+ 
+    return lab[0], lab[1], lab[2]
 
 
 def bgr2labImg(img):
@@ -224,24 +224,11 @@ def bgr2labImg(img):
     :param img (type:numpy.ndarray) shape=(H,W,C) BGR画像
     :return labimg (type:numpy.ndarray) shape=(H,W,C) Lab画像
     """
-    h, w = img.shape[:2]
-
-    # 並列処理準備
-    cpu_num = mp.cpu_count()  # 並列処理数
-    p = mp.Pool(cpu_num)
-
-    # Numpy配列の形状を変更
-    img = img.reshape([-1, 3])
-
-    # RGB画像をLab画像に変換 (並列処理)
-    labimg = []
-    for result in p.map(bgr2labPixels, img):
-        labimg.append(result)
-
-    # int型に変更
+    b = img[:,:,0]  # チャンネル分離
+    g = img[:,:,1]
+    r = img[:,:,2]
+    vfunc = np.vectorize(bgr2labPixels)
+    l, a, b = vfunc(b,g,r)
+    labimg = np.stack([l, a, b], 2)
     labimg = np.array(labimg, dtype="uint8")
-
-    # Numpy配列の形状を元に戻す
-    labimg = labimg.reshape([h, w, 3])
-
     return labimg
