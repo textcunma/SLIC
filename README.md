@@ -27,6 +27,9 @@ SLIC(Simple Linear Iterative Clustering) 再現実装
 解説資料のpdfを公開しました
 [解説資料](explanation.pdf)
 
+ざっくりとした解説をZennに公開しました
+[スーパーピクセル SLIC を学んでみた](https://zenn.dev/textcunma/articles/a969ebcc5f08d6)
+
 ## 結果
 
 <img src="./assets/result.jpg" height="250px" alt="SLIC結果"></img>
